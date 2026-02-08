@@ -1,23 +1,65 @@
+
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title>Servientrega Centro de Soluciones</title>
-  </head>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Servientrega Centro de Soluciones</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <body style="font-family: Arial; text-align: center; padding: 40px;">
-    
-    <h1>📦 Servientrega Centro de Soluciones</h1>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #ffffff;
+      text-align: center;
+      padding: 40px;
+    }
+    input {
+      padding: 10px;
+      width: 80%;
+      max-width: 300px;
+      font-size: 16px;
+      margin-bottom: 15px;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 16px;
+      margin: 8px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
 
-    <p>Escribe tu número de envío</p>
+  <h1>📦 Servientrega Centro de Soluciones</h1>
+  <p>Escribe tu número de envío</p>
 
-    <input type="text" placeholder="Ej: 123456789" style="padding:10px; width:200px;">
+  <input type="text" id="guia" placeholder="Ej: D2I8O4S6">
 
-    <br><br>
+  <br>
 
-    <button style="padding:10px 20px; font-size:16px;">
-      Iniciar
-    </button>
+  <button onclick="irWhatsApp()">📲 WhatsApp</button>
+  <button onclick="verEstado()">📦 Ver estado del envío</button>
 
-  </body>
+  <script>
+    function irWhatsApp() {
+      const guia = document.getElementById("guia").value;
+      if (!guia) {
+        alert("Por favor escribe el número de envío");
+        return;
+      }
+      const url = `https://wa.me/573026279839?text=Hola,%20quiero%20información%20sobre%20mi%20envío%20N°%20${guia}`;
+      window.open(url, "_blank");
+    }
+
+    function verEstado() {
+      const guia = document.getElementById("guia").value;
+      if (!guia) {
+        alert("Por favor escribe el número de envío");
+        return;
+      }
+      window.location.href = `estado.html?guia=${guia}`;
+    }
+  </script>
+
+</body>
 </html>
