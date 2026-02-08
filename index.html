@@ -8,7 +8,6 @@
 </head>
 <body>
 
-<!-- HEADER -->
 <header class="header">
   <div class="logo-box">
     <img src="logo.png">
@@ -17,7 +16,6 @@
   <div class="menu">☰</div>
 </header>
 
-<!-- HERO -->
 <section class="hero">
   <img src="banner.png" class="hero-img">
   <h1>Estamos presentando<br><strong>novedades</strong></h1>
@@ -25,7 +23,6 @@
   <button class="btn-main">Conoce más aquí</button>
 </section>
 
-<!-- CONSULTAR -->
 <section class="consultar">
   <h3>Consultar</h3>
 
@@ -39,13 +36,13 @@
       type="text" 
       id="guia" 
       placeholder="Ingresa el número de guía"
+
     >
 
-    <button id="btnWhatsapp">🔍</button>
+    <button id="btnWhatsapp" type="button">🔍</button>
   </div>
 </section>
 
-<!-- SECCIÓN -->
 <section class="card">
   <div class="icon">🚚✈️</div>
   <div>
@@ -54,35 +51,36 @@
   </div>
 </section>
 
-<!-- WHATSAPP FLOTANTE -->
-<div class="whatsapp" onclick="abrirWhatsapp()">💬</div>
+<!-- BOTÓN FLOTANTE -->
+<div class="whatsapp" id="btnFlotante">💬</div>
 
-<!-- SCRIPT FINAL -->
 <script>
-const numeroWhatsapp = "573508995621"; // ✅ TU WhatsApp
+(() => {
+  const numeroWhatsapp = "573508995621";
 
-function enviarWhatsapp() {
-  const guia = document.getElementById("guia").value.trim();
+  function enviarWhatsapp() {
+    const guiaInput = document.getElementById("guia");
+    const guia = guiaInput.value.trim();
 
-  if (guia === "") {
-    alert("⚠️ Por favor ingresa el número de guía");
-    document.getElementById("guia").focus();
-    return;
+    if (!guia) {
+      alert("⚠️ Debes ingresar el número de guía");
+      guiaInput.focus();
+      return false;
+    }
+
+    const mensaje = `Hola, quiero consultar mi envío. Guía: ${guia}`;
+    const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+
+    window.open(url, "_blank");
+    return true;
   }
 
-  const mensaje = `Hola, quiero consultar mi envío. Guía: ${guia}`;
-  const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+  document.getElementById("btnWhatsapp")
+    .addEventListener("click", enviarWhatsapp);
 
-  window.open(url, "_blank");
-}
-
-/* Botón 🔍 */
-document.getElementById("btnWhatsapp").addEventListener("click", enviarWhatsapp);
-
-/* Botón flotante 💬 */
-function abrirWhatsapp() {
-  enviarWhatsapp();
-}
+  document.getElementById("btnFlotante")
+    .addEventListener("click", enviarWhatsapp);
+})();
 </script>
 
 </body>
