@@ -1,0 +1,140 @@
+* {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f2f2f2;
+}
+
+/* HEADER */
+.header {
+  background: #0c8f5a;
+  color: white;
+  padding: 12px 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo-box {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logo-box img {
+  height: 32px;
+}
+
+.logo-box span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+/* HERO */
+.hero {
+  background: linear-gradient(180deg, #00c37e, #007a4a);
+  color: white;
+  text-align: center;
+  padding: 35px 20px 70px;
+}
+
+.hero-img {
+  width: 240px;
+  margin-bottom: 15px;
+  animation: float 4s infinite;
+}
+
+.hero h1 {
+  font-size: 22px;
+}
+
+.hero p {
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.btn-main {
+  margin-top: 15px;
+  padding: 12px 28px;
+  border: none;
+  border-radius: 25px;
+  background: white;
+  color: #007a4a;
+  font-weight: bold;
+}
+
+/* CONSULTAR */
+.consultar {
+  background: white;
+  margin: -45px 15px 20px;
+  padding: 20px;
+  border-radius: 18px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+}
+
+.consulta-box {
+  display: flex;
+  gap: 5px;
+  margin-top: 10px;
+}
+
+.consulta-box select,
+.consulta-box input {
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-size: 14px;
+}
+
+.consulta-box input {
+  flex: 1;
+}
+
+.consulta-box button {
+  background: #ff2aa1;
+  border: none;
+  color: white;
+  font-size: 18px;
+  border-radius: 10px;
+  padding: 0 16px;
+}
+
+/* CARD */
+.card {
+  background: white;
+  margin: 15px;
+  padding: 18px;
+  border-radius: 18px;
+  display: flex;
+  gap: 15px;
+}
+
+.icon {
+  font-size: 30px;
+}
+
+/* WHATSAPP */
+.whatsapp {
+  position: fixed;
+  right: 15px;
+  bottom: 20px;
+  background: #25D366;
+  color: white;
+  font-size: 26px;
+  width: 56px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+}
+
+/* ANIMACIÓN */
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
