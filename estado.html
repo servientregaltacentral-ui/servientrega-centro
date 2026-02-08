@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Estado del Envío</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>📦 Estado de tu envío</h1>
+
+  <p id="resultado"></p>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const guia = params.get("guia");
+
+    if (guia) {
+      document.getElementById("resultado").innerText =
+        "Tu número de envío es: " + guia + 
+        ".\n\nUn asesor revisará el estado y te contactará.";
+    } else {
+      document.getElementById("resultado").innerText =
+        "No se recibió ningún número de envío.";
+    }
+  </script>
+
+</body>
+</html>
