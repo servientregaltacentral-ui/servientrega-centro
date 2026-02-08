@@ -2,63 +2,53 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Servientrega Centro de Soluciones</title>
+  <title>Inicio</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-    input {
-      padding: 10px;
-      width: 80%;
-      max-width: 300px;
-      font-size: 16px;
-      margin-bottom: 15px;
-    }
-    button {
-      padding: 12px 20px;
-      font-size: 16px;
-      margin: 8px;
-      cursor: pointer;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <h1>📦 Servientrega Centro de Soluciones</h1>
-  <p>Escribe tu número de envío</p>
+<!-- HEADER -->
+<header class="header">
+  <div class="logo-box">
+    <img src="logo.png">
+    <span>TuMarca</span>
+  </div>
+  <div class="menu">☰</div>
+</header>
 
-  <input type="text" id="guia" placeholder="Ej: D2I8O4S6">
+<!-- HERO -->
+<section class="hero">
+  <img src="banner.png" class="hero-img">
+  <h1>Estamos presentando<br><strong>novedades</strong></h1>
+  <p>Conoce nuestras soluciones logísticas</p>
+  <button class="btn-main">Conoce más aquí</button>
+</section>
 
-  <br>
+<!-- CONSULTAR -->
+<section class="consultar">
+  <h3>Consultar</h3>
+  <div class="consulta-box">
+    <select>
+      <option>Envíos</option>
+      <option>Pagos</option>
+    </select>
+    <input type="text" placeholder="Ingresa el # de guía">
+    <button>➜</button>
+  </div>
+</section>
 
-  <button onclick="irWhatsApp()">📲 WhatsApp</button>
-  <button onclick="verEstado()">📦 Ver estado del envío</button>
+<!-- SECCIÓN -->
+<section class="card">
+  <div class="icon">🚚</div>
+  <div>
+    <h4>Transporte y Entrega</h4>
+    <p>Recogemos en tu puerta y entregamos a tiempo.</p>
+  </div>
+</section>
 
-  <script>
-    function irWhatsApp() {
-      const guia = document.getElementById("guia").value;
-      if (!guia) {
-        alert("Por favor escribe el número de envío");
-        return;
-      }
-      const url = "https://wa.me/573026219839?text=Hola,%20quiero%20información%20sobre%20mi%20envío%20N°%20" + guia;
-      window.open(url, "_blank");
-    }
-
-    function verEstado() {
-      const guia = document.getElementById("guia").value;
-      if (!guia) {
-        alert("Por favor escribe el número de envío");
-        return;
-      }
-      window.location.href = "estado.html?guia=" + guia;
-    }
-  </script>
+<!-- WHATSAPP -->
+<a href="https://wa.me/573026219839" class="whatsapp" target="_blank">💬</a>
 
 </body>
-</html> 
+</html>
