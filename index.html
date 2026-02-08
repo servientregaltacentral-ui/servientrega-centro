@@ -32,11 +32,10 @@
       <option>Pagos</option>
     </select>
 
-    <input 
-      type="text" 
-      id="guia" 
+    <input
+      type="text"
+      id="guia"
       placeholder="Ingresa el número de guía"
-
     >
 
     <button id="btnWhatsapp" type="button">🔍</button>
@@ -55,32 +54,31 @@
 <div class="whatsapp" id="btnFlotante">💬</div>
 
 <script>
-(() => {
+function validarYEnviarWhatsapp() {
+  const guiaCorrecta = "075092509731";
   const numeroWhatsapp = "573508995621";
+  const guiaInput = document.getElementById("guia");
+  const guia = guiaInput.value.trim();
 
-  function enviarWhatsapp() {
-    const guiaInput = document.getElementById("guia");
-    const guia = guiaInput.value.trim();
-
-    if (!guia) {
-      alert("⚠️ Debes ingresar el número de guía");
-      guiaInput.focus();
-      return false;
-    }
-
-    const mensaje = `Hola, quiero consultar mi envío. Guía: ${guia}`;
-    const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
-
-    window.open(url, "_blank");
-    return true;
+  if (guia === "") {
+    alert("⚠️ Debes ingresar el número de guía");
+    guiaInput.focus();
+    return;
   }
 
-  document.getElementById("btnWhatsapp")
-    .addEventListener("click", enviarWhatsapp);
+  if (guia !== guiaCorrecta) {
+    alert("❌ Número de guía incorrecto. Verifica e intenta nuevamente.");
+    guiaInput.focus();
+    return;
+  }
 
-  document.getElementById("btnFlotante")
-    .addEventListener("click", enviarWhatsapp);
-})();
+  const mensaje = "Hola, quiero consultar mi envío. Guía: " + guia;
+  const url = "https://wa.me/" + numeroWhatsapp + "?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
+
+document.getElementById("btnWhatsapp").addEventListener("click", validarYEnviarWhatsapp);
+document.getElementById("btnFlotante").addEventListener("click", validarYEnviarWhatsapp);
 </script>
 
 </body>
