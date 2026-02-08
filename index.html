@@ -28,27 +28,62 @@
 <!-- CONSULTAR -->
 <section class="consultar">
   <h3>Consultar</h3>
-  <div class="consulta-box">
+
+  <div class="cuadro-consulta">
     <select>
       <option>Envíos</option>
       <option>Pagos</option>
     </select>
-    <input type="text" id="guia" placeholder="Ingresa el # de guía">
-    <button>➜</button>
+
+    <input 
+      type="text" 
+      id="guia" 
+      placeholder="Ingresa el número de guía"
+    >
+
+    <button id="btnWhatsapp">🔍</button>
   </div>
 </section>
 
 <!-- SECCIÓN -->
 <section class="card">
-  <div class="icon">🚚</div>
+  <div class="icon">🚚✈️</div>
   <div>
     <h4>Transporte y Entrega</h4>
     <p>Recogemos en tu puerta y entregamos a tiempo.</p>
   </div>
 </section>
 
-<!-- WHATSAPP -->
+<!-- WHATSAPP FLOTANTE -->
 <div class="whatsapp" onclick="abrirWhatsapp()">💬</div>
+
+<!-- SCRIPT FINAL -->
+<script>
+const numeroWhatsapp = "573508995621"; // ✅ TU WhatsApp
+
+function enviarWhatsapp() {
+  const guia = document.getElementById("guia").value.trim();
+
+  if (guia === "") {
+    alert("⚠️ Por favor ingresa el número de guía");
+    document.getElementById("guia").focus();
+    return;
+  }
+
+  const mensaje = `Hola, quiero consultar mi envío. Guía: ${guia}`;
+  const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensaje)}`;
+
+  window.open(url, "_blank");
+}
+
+/* Botón 🔍 */
+document.getElementById("btnWhatsapp").addEventListener("click", enviarWhatsapp);
+
+/* Botón flotante 💬 */
+function abrirWhatsapp() {
+  enviarWhatsapp();
+}
+</script>
 
 </body>
 </html>
