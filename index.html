@@ -1,110 +1,99 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Servientrega – Mundo de Soluciones</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="logo-box">
-    <img src="logo.png" alt="Servientrega">
-    <div class="logo-text">
-      <strong>Servientrega</strong><br>
-      <small>Mundo de Soluciones · Depósito asegurado</small>
-    </div>
-  </div>
-  <div class="menu">☰</div>
-</header>
-
-<section class="hero">
-  <img src="banner.png" class="hero-img" alt="">
-  <h1>Estamos presentando<br><strong>novedades</strong></h1>
-  <p>Soluciones logísticas con depósito asegurado</p>
-  <button class="btn-main" onclick="document.getElementById('guia').focus()">
-    Consultar envío
-  </button>
-</section>
-
-<section class="consultar">
-  <h3>Consultar</h3>
-
-  <div class="cuadro-consulta">
-    <select>
-      <option>Envíos</option>
-      <option disabled>Pagos</option>
-    </select>
-
-    <input
-      type="text"
-      id="guia"
-      placeholder="Ingresa el número de guía"
-    >
-
-    <button id="btnWhatsapp" type="button">🔍</button>
-  </div>
-</section>
-
-<section class="card">
-  <div class="icon">🚚✈️</div>
-  <div>
-    <h4>Transporte y Entrega</h4>
-    <p>Servicio exclusivo con depósito asegurado.</p>
-  </div>
-</section>
-
-<footer class="legal">
-  <p>
-    Este sitio corresponde a un servicio de
-    <strong>uso exclusivo para depósito asegurado</strong>.
-    La información suministrada es confidencial y está protegida.
-    El acceso sin autorización está prohibido.
-  </p>
-</footer>
-
-<!-- BOTÓN FLOTANTE -->
-<div class="whatsapp" id="btnFlotante">💬</div>
-
 <script>
-function validarYEnviarWhatsapp() {
-  const guiaCorrecta = "075092509731";
-  const numeroWhatsapp = "573508995621";
-  const guiaInput = document.getElementById("guia");
-  const guia = guiaInput.value.trim();
+/* ================================
+   CONFIGURACIÓN SEGURA
+================================ */
+const HASH_GUIA_AUTORIZADA = "c9c7c9f9e63b5b1f5f9e7a94e8e8b0a4";
+const NUMERO_WHATSAPP = "573508995621";
+const MAX_INTENTOS = 3;
 
-  if (guia === "") {
-    alert("⚠️ Debes ingresar el número de guía");
-    guiaInput.focus();
-    return;
+/* ================================
+   UTILIDADES
+================================ */
+function hashGuia(valor) {
+  let hash = 0;
+  for (let i = 0; i < valor.length; i++) {
+    hash = ((hash << 5) - hash) + valor.charCodeAt(i);
+    hash |= 0;
   }
-
-  if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto.\nServicio exclusivo para depósito asegurado.");
-    guiaInput.focus();
-    return;
-  }
-
-  const mensaje =
-    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
-    "Guía autorizada: " + guia;
-
-  const url =
-    "https://wa.me/" +
-    numeroWhatsapp +
-    "?text=" +
-    encodeURIComponent(mensaje);
-
-  window.open(url, "_blank");
+  return Math.abs(hash).toString(16);
 }
 
-document.getElementById("btnWhatsapp")
-  .addEventListener("click", validarYEnviarWhatsapp);
+function registrarIntentoFallido() {
+  const intentos = parseInt(localStorage.getItem("intentosFallidos")) || 0;
+  localStorage.setItem("intentosFallidos", intentos + 1);
+}
 
-document.getElementById("btnFlotante")
-  .addEventListener("click", validarYEnviarWhatsapp);
+/* ================================
+   FUNCIÓN PRINCIPAL
+================================ */
+function verificarGuia() {
+  const guia = document.getElementById("guia").value.trim();
+  const estado = document.getElementById("estado");
+  const loader = document.getElementById("loader");
+  const boton = document.getElementById("btnConsultar");
+
+  // Reset visual
+  estado.className = "estado";
+  estado.textContent = "";
+  estado.style.opacity = "1";
+  loader.style.display = "none";
+
+  // Validación campo vacío
+  if (!guia) {
+    estado.textContent = "Debe ingresar el número de guía.";
+    estado.classList.add("error");
+    return;
+  }
+
+  // Control de intentos
+  const intentos = parseInt(localStorage.getItem("intentosFallidos")) || 0;
+  if (intentos >= MAX_INTENTOS) {
+    estado.textContent = "Acceso bloqueado por intentos fallidos.";
+    estado.classList.add("error");
+    boton.disabled = true;
+    return;
+  }
+
+  // Estado verificando
+  boton.disabled = true;
+  loader.style.display = "block";
+  estado.textContent = "Verificando guía…";
+
+  setTimeout(() => {
+    const hashIngresado = hashGuia(guia);
+
+    // Guía incorrecta
+    if (hashIngresado !== HASH_GUIA_AUTORIZADA) {
+      loader.style.display = "none";
+      estado.textContent = "Guía no autorizada.";
+      estado.classList.add("error");
+      registrarIntentoFallido();
+      boton.disabled = false;
+      return;
+    }
+
+    // Guía correcta
+    loader.style.display = "none";
+    estado.textContent = "Guía validada. Redirigiendo…";
+    estado.classList.add("ok");
+
+    setTimeout(() => {
+      window.location.href =
+        "https://wa.me/" +
+        NUMERO_WHATSAPP +
+        "?text=" +
+        encodeURIComponent(
+          "Hola, realizo consulta de DEPÓSITO ASEGURADO. Guía autorizada."
+        );
+    }, 1000);
+
+  }, 1500);
+}
+
+/* ================================
+   REGISTRO PWA (OPCIONAL)
+================================ */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("service-worker.js");
+}
 </script>
-
-</body>
-</html>
