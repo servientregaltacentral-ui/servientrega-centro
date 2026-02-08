@@ -32,20 +32,16 @@ function verificarGuia() {
   const loader = document.getElementById("loader");
   const boton = document.getElementById("btnConsultar");
 
-  // Reset visual
   estado.className = "estado";
   estado.textContent = "";
-  estado.style.opacity = "1";
   loader.style.display = "none";
 
-  // Validación campo vacío
   if (!guia) {
     estado.textContent = "Debe ingresar el número de guía.";
     estado.classList.add("error");
     return;
   }
 
-  // Control de intentos
   const intentos = parseInt(localStorage.getItem("intentosFallidos")) || 0;
   if (intentos >= MAX_INTENTOS) {
     estado.textContent = "Acceso bloqueado por intentos fallidos.";
@@ -54,16 +50,12 @@ function verificarGuia() {
     return;
   }
 
-  // Estado verificando
   boton.disabled = true;
   loader.style.display = "block";
   estado.textContent = "Verificando guía…";
 
   setTimeout(() => {
-    const hashIngresado = hashGuia(guia);
-
-    // Guía incorrecta
-    if (hashIngresado !== HASH_GUIA_AUTORIZADA) {
+    if (hashGuia(guia) !== HASH_GUIA_AUTORIZADA) {
       loader.style.display = "none";
       estado.textContent = "Guía no autorizada.";
       estado.classList.add("error");
@@ -72,7 +64,6 @@ function verificarGuia() {
       return;
     }
 
-    // Guía correcta
     loader.style.display = "none";
     estado.textContent = "Guía validada. Redirigiendo…";
     estado.classList.add("ok");
