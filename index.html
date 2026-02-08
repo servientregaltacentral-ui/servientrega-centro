@@ -20,7 +20,7 @@
 </header>
 
 <section class="hero">
-  <img src="banner.png" class="hero-img">
+  <img src="banner.png" class="hero-img" alt="">
   <h1>Estamos presentando<br><strong>novedades</strong></h1>
   <p>Soluciones logísticas con depósito asegurado</p>
   <button class="btn-main" onclick="document.getElementById('guia').focus()">
@@ -55,6 +55,15 @@
   </div>
 </section>
 
+<footer class="legal">
+  <p>
+    Este sitio corresponde a un servicio de
+    <strong>uso exclusivo para depósito asegurado</strong>.
+    La información suministrada es confidencial y está protegida.
+    El acceso sin autorización está prohibido.
+  </p>
+</footer>
+
 <!-- BOTÓN FLOTANTE -->
 <div class="whatsapp" id="btnFlotante">💬</div>
 
@@ -72,7 +81,7 @@ function validarYEnviarWhatsapp() {
   }
 
   if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
+    alert("❌ Número de guía incorrecto.\nServicio exclusivo para depósito asegurado.");
     guiaInput.focus();
     return;
   }
@@ -90,12 +99,10 @@ function validarYEnviarWhatsapp() {
   window.open(url, "_blank");
 }
 
-document
-  .getElementById("btnWhatsapp")
+document.getElementById("btnWhatsapp")
   .addEventListener("click", validarYEnviarWhatsapp);
 
-document
-  .getElementById("btnFlotante")
+document.getElementById("btnFlotante")
   .addEventListener("click", validarYEnviarWhatsapp);
 </script>
 
