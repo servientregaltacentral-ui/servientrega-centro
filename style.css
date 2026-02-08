@@ -1,17 +1,29 @@
+
+/* === IDENTIDAD SERVIENTREGA PRO === */
+:root {
+  --verde-oscuro: #006c3b;
+  --verde-principal: #009a44;
+  --verde-claro: #00b35a;
+  --blanco: #ffffff;
+  --gris-claro: #f2f2f2;
+  --sombra: 0 10px 25px rgba(0,0,0,0.15);
+}
+
 * {
-  margin: 0;
-  font-family: Arial, sans-serif;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 body {
-  background: #f2f2f2;
+  margin: 0;
+  background: #f7f7f7;
 }
 
 /* HEADER */
 .header {
-  background: #0c8f5a;
+  background: linear-gradient(90deg, var(--verde-oscuro), var(--verde-principal));
   color: white;
-  padding: 12px 15px;
+  padding: 12px 16px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -20,121 +32,124 @@ body {
 .logo-box {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .logo-box img {
-  height: 32px;
+  width: 40px;
 }
 
-.logo-box span {
-  font-weight: bold;
-  font-size: 16px;
+.menu {
+  font-size: 24px;
 }
 
 /* HERO */
 .hero {
-  background: linear-gradient(180deg, #00c37e, #007a4a);
+  background: linear-gradient(180deg, var(--verde-principal), var(--verde-oscuro));
   color: white;
   text-align: center;
-  padding: 35px 20px 70px;
+  padding: 40px 20px;
 }
 
 .hero-img {
-  width: 240px;
-  margin-bottom: 15px;
-  animation: float 4s infinite;
-}
-
-.hero h1 {
-  font-size: 22px;
-}
-
-.hero p {
-  font-size: 14px;
-  opacity: 0.9;
+  width: 80px;
+  opacity: 0.4;
 }
 
 .btn-main {
-  margin-top: 15px;
-  padding: 12px 28px;
+  margin-top: 20px;
+  padding: 14px 28px;
+  border-radius: 30px;
   border: none;
-  border-radius: 25px;
   background: white;
-  color: #007a4a;
+  color: var(--verde-oscuro);
   font-weight: bold;
+  cursor: pointer;
+  box-shadow: var(--sombra);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-main:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
 }
 
 /* CONSULTAR */
 .consultar {
-  background: white;
-  margin: -45px 15px 20px;
   padding: 20px;
-  border-radius: 18px;
-  box-shadow: 0 12px 30px rgba(0,0,0,0.12);
 }
 
-.consulta-box {
+.cuadro-consulta {
+  background: white;
+  padding: 12px;
+  border-radius: 12px;
   display: flex;
-  gap: 5px;
-  margin-top: 10px;
+  gap: 8px;
+  box-shadow: var(--sombra);
 }
 
-.consulta-box select,
-.consulta-box input {
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-size: 14px;
-}
-
-.consulta-box input {
-  flex: 1;
-}
-
-.consulta-box button {
-  background: #ff2aa1;
-  border: none;
-  color: white;
-  font-size: 18px;
-  border-radius: 10px;
-  padding: 0 16px;
+.cuadro-consulta input,
+.cuadro-consulta select,
+.cuadro-consulta button {
+  padding: 8px;
 }
 
 /* CARD */
 .card {
   background: white;
-  margin: 15px;
-  padding: 18px;
-  border-radius: 18px;
+  margin: 20px;
+  padding: 16px;
+  border-radius: 12px;
   display: flex;
-  gap: 15px;
+  gap: 12px;
+  box-shadow: var(--sombra);
+  border-left: 6px solid var(--verde-principal);
 }
 
-.icon {
-  font-size: 30px;
+/* AVISO LEGAL */
+footer.legal {
+  background: var(--gris-claro);
+  padding: 15px;
+  font-size: 12px;
+  color: #555;
+  text-align: center;
 }
 
 /* WHATSAPP */
 .whatsapp {
   position: fixed;
-  right: 15px;
   bottom: 20px;
-  background: #25D366;
+  right: 20px;
+  background: #25d366;
   color: white;
-  font-size: 26px;
-  width: 56px;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  font-size: 24px;
+  padding: 14px;
   border-radius: 50%;
-  box-shadow: 0 10px 20px rgba(0,0,0,0.25);
+  cursor: pointer;
+  animation: pulse 2s infinite;
 }
 
-/* ANIMACIÓN */
-@keyframes float {
-  0% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0); }
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1); }
+}
+
+/* ANIMACIONES */
+.hero h1,
+.hero p,
+.btn-main,
+.card {
+  animation: fadeUp 1s ease forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
