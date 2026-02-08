@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Inicio</title>
+  <title>Servientrega – Mundo de Soluciones</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
 </head>
@@ -10,8 +10,11 @@
 
 <header class="header">
   <div class="logo-box">
-    <img src="logo.png">
-    <span>TuMarca</span>
+    <img src="logo.png" alt="Servientrega">
+    <div class="logo-text">
+      <strong>Servientrega</strong><br>
+      <small>Mundo de Soluciones · Depósito asegurado</small>
+    </div>
   </div>
   <div class="menu">☰</div>
 </header>
@@ -19,8 +22,10 @@
 <section class="hero">
   <img src="banner.png" class="hero-img">
   <h1>Estamos presentando<br><strong>novedades</strong></h1>
-  <p>Conoce nuestras soluciones logísticas</p>
-  <button class="btn-main">Conoce más aquí</button>
+  <p>Soluciones logísticas con depósito asegurado</p>
+  <button class="btn-main" onclick="document.getElementById('guia').focus()">
+    Consultar envío
+  </button>
 </section>
 
 <section class="consultar">
@@ -29,7 +34,7 @@
   <div class="cuadro-consulta">
     <select>
       <option>Envíos</option>
-      <option>Pagos</option>
+      <option disabled>Pagos</option>
     </select>
 
     <input
@@ -46,7 +51,7 @@
   <div class="icon">🚚✈️</div>
   <div>
     <h4>Transporte y Entrega</h4>
-    <p>Recogemos en tu puerta y entregamos a tiempo.</p>
+    <p>Servicio exclusivo con depósito asegurado.</p>
   </div>
 </section>
 
@@ -67,18 +72,31 @@ function validarYEnviarWhatsapp() {
   }
 
   if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto. Verifica e intenta nuevamente.");
+    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
     guiaInput.focus();
     return;
   }
 
-  const mensaje = "Hola, quiero consultar mi envío. Guía: " + guia;
-  const url = "https://wa.me/" + numeroWhatsapp + "?text=" + encodeURIComponent(mensaje);
+  const mensaje =
+    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
+    "Guía autorizada: " + guia;
+
+  const url =
+    "https://wa.me/" +
+    numeroWhatsapp +
+    "?text=" +
+    encodeURIComponent(mensaje);
+
   window.open(url, "_blank");
 }
 
-document.getElementById("btnWhatsapp").addEventListener("click", validarYEnviarWhatsapp);
-document.getElementById("btnFlotante").addEventListener("click", validarYEnviarWhatsapp);
+document
+  .getElementById("btnWhatsapp")
+  .addEventListener("click", validarYEnviarWhatsapp);
+
+document
+  .getElementById("btnFlotante")
+  .addEventListener("click", validarYEnviarWhatsapp);
 </script>
 
 </body>
