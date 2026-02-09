@@ -3,112 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consultar guía · Depósito Asegurado</title>
+<title>Consultar guía | Depósito asegurado</title>
 
 <style>
 :root{
-  --green:#00e676;
-  --dark:#08140f;
-  --glass:rgba(255,255,255,.08);
-  --border:rgba(255,255,255,.15);
+  --verde:#00e676;
+  --fondo:#0b1a14;
+  --glass:rgba(255,255,255,.06);
+  --borde:rgba(255,255,255,.15);
 }
 
 *{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:system-ui,Segoe UI,Roboto;
-  background:
-    radial-gradient(1200px 600px at top,#0f3b2b 0%,#08140f 60%);
-  color:#fff;
   min-height:100vh;
   display:flex;
-  justify-content:center;
   align-items:center;
-  overflow:hidden;
+  justify-content:center;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto;
+  color:#fff;
+  background:
+    radial-gradient(circle at top,#163b2c 0%,var(--fondo) 60%),
+    #000;
 }
 
-/* partículas suaves */
-body::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:url("https://grainy-gradients.vercel.app/noise.svg");
-  opacity:.07;
-  pointer-events:none;
-}
-
-.app{
+/* CONTENEDOR */
+.card{
   width:92%;
   max-width:420px;
-  padding:28px;
-  border-radius:26px;
+  padding:28px 22px 32px;
+  border-radius:28px;
   background:var(--glass);
   backdrop-filter:blur(18px);
-  border:1px solid var(--border);
-  box-shadow:0 30px 60px rgba(0,0,0,.6);
-  animation:entrada .7s ease;
-}
-
-@keyframes entrada{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1}
-}
-
-.logo{
-  display:flex;
-  justify-content:center;
-  margin-bottom:14px;
-}
-
-.logo img{
-  width:72px;
-  filter:drop-shadow(0 0 18px rgba(0,255,150,.35));
-}
-
-h1{
-  margin:.2em 0;
+  border:1px solid var(--borde);
+  box-shadow:0 30px 60px rgba(0,0,0,.55);
+  animation:entrar .7s ease;
   text-align:center;
+}
+
+@keyframes entrar{
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
+}
+
+/* TITULOS */
+h1{
+  margin:14px 0 6px;
   font-size:1.9rem;
   letter-spacing:.5px;
 }
 
-.sub{
-  text-align:center;
-  font-size:.9rem;
-  color:#cfe;
-  opacity:.8;
-  margin-bottom:26px;
+p{
+  margin:0 0 22px;
+  font-size:.95rem;
+  color:#cfdad5;
 }
 
-/* input */
-.box{
-  background:rgba(0,0,0,.35);
-  border-radius:18px;
-  padding:6px;
+/* INPUT + BOTON */
+.cuadro{
   display:flex;
-  gap:6px;
-  border:1px solid var(--border);
-  transition:.3s;
+  gap:8px;
+  padding:6px;
+  border-radius:18px;
+  background:rgba(0,0,0,.35);
+  border:1px solid var(--borde);
 }
 
-.box:focus-within{
-  border-color:var(--green);
-  box-shadow:0 0 0 3px rgba(0,230,118,.15);
+.cuadro:focus-within{
+  border-color:var(--verde);
+  box-shadow:0 0 18px rgba(0,230,118,.25);
 }
 
-input{
+.cuadro input{
   flex:1;
   background:transparent;
   border:none;
   outline:none;
-  color:#fff;
-  font-size:1rem;
   padding:14px;
+  font-size:15px;
+  color:#fff;
 }
 
-button{
-  background:var(--green);
+.cuadro button{
+  background:var(--verde);
   border:none;
   border-radius:14px;
   padding:0 22px;
@@ -117,116 +95,103 @@ button{
   transition:.25s;
 }
 
-button:hover{transform:scale(1.06)}
-button:active{transform:scale(.97)}
-
-.estado{
-  margin-top:14px;
-  text-align:center;
-  font-size:.85rem;
-  color:#9f9;
-  min-height:20px;
+.cuadro button:active{
+  transform:scale(.95);
 }
 
-.loader{
-  width:26px;
-  height:26px;
-  border-radius:50%;
-  border:3px solid rgba(255,255,255,.2);
-  border-top:3px solid var(--green);
-  animation:giro 1s linear infinite;
-  margin:10px auto;
+/* ESTADO */
+.estado{
+  margin-top:14px;
+  font-size:.85rem;
+  color:var(--verde);
   display:none;
 }
 
-@keyframes giro{to{transform:rotate(360deg)}}
-
-/* WhatsApp flotante */
+/* WHATSAPP FLOTANTE */
 .whatsapp{
   position:fixed;
-  bottom:26px;
-  right:26px;
-  width:62px;
-  height:62px;
+  right:18px;
+  bottom:18px;
+  width:56px;
+  height:56px;
   border-radius:50%;
   background:#25d366;
   display:flex;
   align-items:center;
   justify-content:center;
-  box-shadow:0 12px 30px rgba(0,0,0,.4);
+  box-shadow:0 12px 28px rgba(0,0,0,.45);
   cursor:pointer;
   transition:.3s;
 }
 
-.whatsapp:hover{transform:translateY(-6px)}
+.whatsapp:active{
+  transform:scale(.92);
+}
 </style>
 </head>
 
 <body>
 
-<div class="app">
-  <div class="logo">
-    <img src="https://cdn-icons-png.flaticon.com/512/2311/2311524.png">
-  </div>
-
+<div class="card">
+  <img src="https://cdn-icons-png.flaticon.com/512/2311/2311524.png"
+       width="78" style="filter:invert(1)">
+  
   <h1>Consultar guía</h1>
-  <div class="sub">
-    Consulta el estado de tu envío con depósito asegurado
+  <p>Consulta el estado de tu envío con depósito asegurado</p>
+
+  <div class="cuadro">
+    <input id="guia" placeholder="Ingresa el número de guía" autocomplete="off">
+    <button id="consultar">Consultar</button>
   </div>
 
-  <div class="box">
-    <input id="guia" placeholder="Ingresa el número de guía">
-    <button id="btn">Consultar</button>
-  </div>
-
-  <div id="estado" class="estado"></div>
-  <div id="loader" class="loader"></div>
+  <div id="estado" class="estado">Verificando guía…</div>
 </div>
 
-<div class="whatsapp" id="btnFloat">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="34">
+<div class="whatsapp" id="wa">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
 </div>
 
 <script>
-/* guía ofuscada (no visible directo) */
-const _g = atob("MDc1MDkyNTA5NzMx");
-const WA = "573508995621";
+const GUIA_VALIDA = "0750925931";
+const WHATSAPP = "573508995621";
+const MAX_INTENTOS = 3;
 
-function validar(){
+function procesar(){
   const guia = guiaInput.value.trim();
-  estado.textContent="";
-  loader.style.display="none";
+  const estado = document.getElementById("estado");
+  let intentos = Number(localStorage.getItem("intentos")) || 0;
 
-  if(!guia){
-    estado.textContent="⚠ Ingresa el número de guía";
+  if(intentos >= MAX_INTENTOS){
+    alert("🚫 Acceso bloqueado por intentos fallidos");
     return;
   }
 
-  loader.style.display="block";
-  estado.textContent="Verificando guía…";
+  if(!guia){
+    alert("⚠️ Ingresa el número de guía");
+    return;
+  }
+
+  estado.style.display="block";
 
   setTimeout(()=>{
-    if(guia!==_g){
-      loader.style.display="none";
-      estado.textContent="❌ Guía no autorizada";
-      return;
+    if(guia !== GUIA_VALIDA){
+      intentos++;
+      localStorage.setItem("intentos",intentos);
+      estado.style.display="none";
+      alert(`❌ Guía incorrecta\nIntentos restantes: ${MAX_INTENTOS-intentos}`);
+    }else{
+      localStorage.removeItem("intentos");
+      const msg = `Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía: ${guia}`;
+      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
+      estado.style.display="none";
     }
-
-    estado.textContent="✔ Guía validada. Redirigiendo…";
-    setTimeout(()=>{
-      const msg=`Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía autorizada: ${guia}`;
-      window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`,"_blank");
-    },700);
-  },1100);
+  },900);
 }
 
-const guiaInput=document.getElementById("guia");
-const estado=document.getElementById("estado");
-const loader=document.getElementById("loader");
-
-document.getElementById("btn").onclick=validar;
-document.getElementById("btnFloat").onclick=validar;
-guiaInput.addEventListener("keydown",e=>{if(e.key==="Enter")validar()});
+const guiaInput = document.getElementById("guia");
+document.getElementById("consultar").onclick = procesar;
+document.getElementById("wa").onclick = procesar;
+guiaInput.addEventListener("keypress",e=>{if(e.key==="Enter")procesar()});
 </script>
 
 </body>
