@@ -1,81 +1,46 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <title>Servientrega – Mundo de Soluciones</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-
-<header class="header">
-  <div class="logo-box">
-    <img src="logo.png" alt="Servientrega">
-    <div class="logo-text">
-      <strong>Servientrega</strong><br>
-      <small>Mundo de Soluciones · Depósito asegurado</small>
-    </div>
-  </div>
-  <div class="menu">☰</div>
-</header>
-
-<section class="hero">
-  <img src="banner.png" class="hero-img">
-  <h1>Estamos presentando<br><strong>novedades</strong></h1>
-  <p>Soluciones logísticas con depósito asegurado</p>
-  <button class="btn-main" onclick="document.getElementById('guia').focus()">
-    Consultar envío
-  </button>
-</section>
-
-<section class="consultar">
-  <h3>Consultar</h3>
-
-  <div class="cuadro-consulta">
-    <select>
-      <option>Envíos</option>
-      <option disabled>Pagos</option>
-    </select>
-
-    <input
-      type="text"
-      id="guia"
-      placeholder="Ingresa el número de guía"
-    >
-
-    <button id="btnWhatsapp" type="button">🔍</button>
-  </div>
-</section>
-
-<section class="card">
-  <div class="icon">🚚✈️</div>
-  <div>
-    <h4>Transporte y Entrega</h4>
-    <p>Servicio exclusivo con depósito asegurado.</p>
-  </div>
-</section>
-
-<!-- BOTÓN FLOTANTE -->
-<div class="whatsapp" id="btnFlotante">💬</div>
-
 <script>
+/* ===============================
+   CONFIGURACIÓN
+================================ */
+const GUIA_AUTORIZADA = "0750925931";
+const NUMERO_WHATSAPP = "573508995621";
+const MAX_INTENTOS = 3;
+
+/* ===============================
+   FUNCIÓN PRINCIPAL
+================================ */
 function validarYEnviarWhatsapp() {
-  const guiaCorrecta = "0750925931";
-  const numeroWhatsapp = "573508995621";
   const guiaInput = document.getElementById("guia");
   const guia = guiaInput.value.trim();
 
+  let intentos = parseInt(localStorage.getItem("intentosGuia")) || 0;
+
+  if (intentos >= MAX_INTENTOS) {
+    alert("🚫 Acceso bloqueado por intentos fallidos.");
+    return;
+  }
+
   if (guia === "") {
-    alert("⚠️ Debes ingresar el número de guía");
+    alert("⚠️ Debes ingresar el número de guía.");
     guiaInput.focus();
     return;
   }
 
-  if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
+  if (guia !== GUIA_AUTORIZADA) {
+    intentos++;
+    localStorage.setItem("intentosGuia", intentos);
+
+    alert(
+      "❌ Guía no autorizada.\n" +
+      "Intentos restantes: " + (MAX_INTENTOS - intentos)
+    );
+
     guiaInput.focus();
     return;
   }
+
+  // ✔️ Guía válida → reinicia intentos
+  localStorage.removeItem("intentosGuia");
 
   const mensaje =
     "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
@@ -83,13 +48,16 @@ function validarYEnviarWhatsapp() {
 
   const url =
     "https://wa.me/" +
-    numeroWhatsapp +
+    NUMERO_WHATSAPP +
     "?text=" +
     encodeURIComponent(mensaje);
 
   window.open(url, "_blank");
 }
 
+/* ===============================
+   EVENTOS
+================================ */
 document
   .getElementById("btnWhatsapp")
   .addEventListener("click", validarYEnviarWhatsapp);
@@ -98,6 +66,3 @@ document
   .getElementById("btnFlotante")
   .addEventListener("click", validarYEnviarWhatsapp);
 </script>
-
-</body>
-</html>
