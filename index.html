@@ -1,68 +1,188 @@
-<script>
-/* ===============================
-   CONFIGURACIÓN
-================================ */
-const GUIA_AUTORIZADA = "0750925931";
-const NUMERO_WHATSAPP = "573508995621";
-const MAX_INTENTOS = 3;
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Guía - Depósito Asegurado</title>
+    <style>
+        :root {
+            --primary-green: #00ff88;
+            --dark-bg: #0b1a14;
+            --glass: rgba(255, 255, 255, 0.05);
+            --border-glass: rgba(255, 255, 255, 0.1);
+        }
 
-/* ===============================
-   FUNCIÓN PRINCIPAL
-================================ */
-function validarYEnviarWhatsapp() {
-  const guiaInput = document.getElementById("guia");
-  const guia = guiaInput.value.trim();
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background: radial-gradient(circle at top, #143326 0%, var(--dark-bg) 100%);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+        }
 
-  let intentos = parseInt(localStorage.getItem("intentosGuia")) || 0;
+        /* Contenedor Principal */
+        .container {
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            padding: 2rem;
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border-radius: 30px;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+            animation: fadeIn 0.8s ease-out;
+        }
 
-  if (intentos >= MAX_INTENTOS) {
-    alert("🚫 Acceso bloqueado por intentos fallidos.");
-    return;
-  }
+        h1 { font-size: 2rem; margin-bottom: 0.5rem; letter-spacing: 1px; }
+        p { color: #ccc; font-size: 0.9rem; margin-bottom: 2rem; }
 
-  if (guia === "") {
-    alert("⚠️ Debes ingresar el número de guía.");
-    guiaInput.focus();
-    return;
-  }
+        /* Estilo del Formulario */
+        .input-group {
+            position: relative;
+            background: rgba(0,0,0,0.3);
+            padding: 5px;
+            border-radius: 15px;
+            display: flex;
+            border: 1px solid var(--border-glass);
+            transition: all 0.3s;
+        }
 
-  if (guia !== GUIA_AUTORIZADA) {
-    intentos++;
-    localStorage.setItem("intentosGuia", intentos);
+        .input-group:focus-within {
+            border-color: var(--primary-green);
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.2);
+        }
 
-    alert(
-      "❌ Guía no autorizada.\n" +
-      "Intentos restantes: " + (MAX_INTENTOS - intentos)
-    );
+        input {
+            background: transparent;
+            border: none;
+            color: white;
+            padding: 15px;
+            flex-grow: 1;
+            font-size: 1rem;
+            outline: none;
+        }
 
-    guiaInput.focus();
-    return;
-  }
+        button#btnWhatsapp {
+            background: var(--primary-green);
+            border: none;
+            padding: 10px 25px;
+            border-radius: 12px;
+            color: #000;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.3s;
+        }
 
-  // ✔️ Guía válida → reinicia intentos
-  localStorage.removeItem("intentosGuia");
+        button#btnWhatsapp:hover {
+            background: #00e67a;
+            transform: scale(1.05);
+        }
 
-  const mensaje =
-    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
-    "Guía autorizada: " + guia;
+        /* Botón Flotante (Icono WhatsApp) */
+        #btnFlotante {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #25d366;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-  const url =
-    "https://wa.me/" +
-    NUMERO_WHATSAPP +
-    "?text=" +
-    encodeURIComponent(mensaje);
+        #btnFlotante:hover { transform: translateY(-5px); }
 
-  window.open(url, "_blank");
-}
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-/* ===============================
-   EVENTOS
-================================ */
-document
-  .getElementById("btnWhatsapp")
-  .addEventListener("click", validarYEnviarWhatsapp);
+        .loading {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            display: none;
+        }
+    </style>
+</head>
+<body>
 
-document
-  .getElementById("btnFlotante")
-  .addEventListener("click", validarYEnviarWhatsapp);
-</script>
+    <div class="container">
+        <img src="https://cdn-icons-png.flaticon.com/512/2311/2311524.png" width="80" alt="Truck" style="filter: invert(1); margin-bottom: 10px;">
+        <h1>Consultar guía</h1>
+        <p>Consulta el estado de tu envío con depósito asegurado</p>
+        
+        <div class="input-group">
+            <input type="text" id="guia" placeholder="Ingresa el número de guía" autocomplete="off">
+            <button id="btnWhatsapp">Consultar</button>
+        </div>
+        
+        <div id="status" class="loading">Verificando guía...</div>
+    </div>
+
+    <div id="btnFlotante">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="35" alt="WA">
+    </div>
+
+    <script>
+        const GUIA_AUTORIZADA = "0750925931";
+        const NUMERO_WHATSAPP = "573508995621";
+        const MAX_INTENTOS = 3;
+
+        function validarYEnviarWhatsapp() {
+            const guiaInput = document.getElementById("guia");
+            const statusDiv = document.getElementById("status");
+            const guia = guiaInput.value.trim();
+            let intentos = parseInt(localStorage.getItem("intentosGuia")) || 0;
+
+            if (intentos >= MAX_INTENTOS) {
+                alert("🚫 Acceso bloqueado por intentos fallidos.");
+                return;
+            }
+
+            if (guia === "") {
+                alert("⚠️ Debes ingresar el número de guía.");
+                return;
+            }
+
+            // Simulación visual de carga
+            statusDiv.style.display = "block";
+            
+            setTimeout(() => {
+                if (guia !== GUIA_AUTORIZADA) {
+                    intentos++;
+                    localStorage.setItem("intentosGuia", intentos);
+                    statusDiv.style.display = "none";
+                    alert(`❌ Guía no autorizada. Intentos restantes: ${MAX_INTENTOS - intentos}`);
+                } else {
+                    localStorage.removeItem("intentosGuia");
+                    const mensaje = `Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía autorizada: ${guia}`;
+                    const url = `https://wa.me/${NUMERO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+                    window.open(url, "_blank");
+                    statusDiv.style.display = "none";
+                }
+            }, 800);
+        }
+
+        document.getElementById("btnWhatsapp").addEventListener("click", validarYEnviarWhatsapp);
+        document.getElementById("btnFlotante").addEventListener("click", validarYEnviarWhatsapp);
+        
+        // Soporte para tecla Enter
+        document.getElementById("guia").addEventListener("keypress", (e) => {
+            if (e.key === "Enter") validarYEnviarWhatsapp();
+        });
+    </script>
+</body>
+</html>
