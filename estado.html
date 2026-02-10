@@ -2,36 +2,102 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Estado del Envío</title>
+  <title>Servientrega – Mundo de Soluciones</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 40px;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <h1>📦 Estado de tu envío</h1>
+<header class="header">
+  <div class="logo-box">
+    <img src="logo.png" alt="Servientrega">
+    <div class="logo-text">
+      <strong>Servientrega</strong><br>
+      <small>Mundo de Soluciones · Depósito asegurado</small>
+    </div>
+  </div>
+  <div class="menu">☰</div>
+</header>
 
-  <p id="resultado"></p>
+<section class="hero">
+  <img src="banner.png" class="hero-img">
+  <h1>Estamos presentando<br><strong>novedades</strong></h1>
+  <p>Soluciones logísticas con depósito asegurado</p>
+  <button class="btn-main" onclick="document.getElementById('guia').focus()">
+    Consultar envío
+  </button>
+</section>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const guia = params.get("guia");
+<section class="consultar">
+  <h3>Consultar</h3>
 
-    if (guia) {
-      document.getElementById("resultado").innerText =
-        "Tu número de envío es: " + guia + 
-        ".\n\nUn asesor revisará el estado y te contactará.";
-    } else {
-      document.getElementById("resultado").innerText =
-        "No se recibió ningún número de envío.";
-    }
-  </script>
+  <div class="cuadro-consulta">
+    <select>
+      <option>Envíos</option>
+      <option disabled>Pagos</option>
+    </select>
+
+    <input
+      type="text"
+      id="guia"
+      placeholder="Ingresa el número de guía"
+    >
+
+    <button id="btnWhatsapp" type="button">🔍</button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="icon">🚚✈️</div>
+  <div>
+    <h4>Transporte y Entrega</h4>
+    <p>Servicio exclusivo con depósito asegurado.</p>
+  </div>
+</section>
+
+<!-- BOTÓN FLOTANTE -->
+<div class="whatsapp" id="btnFlotante">💬</div>
+
+<script>
+function validarYEnviarWhatsapp() {
+  const guiaCorrecta = "0750925931";
+  const numeroWhatsapp = "573026219839";
+  const guiaInput = document.getElementById("guia");
+  const guia = guiaInput.value.trim();
+
+  if (guia === "") {
+    alert("⚠️ Debes ingresar el número de guía");
+    guiaInput.focus();
+    return;
+  }
+
+  if (guia !== guiaCorrecta) {
+    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
+    guiaInput.focus();
+    return;
+  }
+
+  const mensaje =
+    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
+    "Guía autorizada: " + guia;
+
+  const url =
+    "https://wa.me/" +
+    numeroWhatsapp +
+    "?text=" +
+    encodeURIComponent(mensaje);
+
+  window.open(url, "_blank");
+}
+
+document
+  .getElementById("btnWhatsapp")
+  .addEventListener("click", validarYEnviarWhatsapp);
+
+document
+  .getElementById("btnFlotante")
+  .addEventListener("click", validarYEnviarWhatsapp);
+</script>
 
 </body>
 </html>
