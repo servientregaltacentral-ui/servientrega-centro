@@ -1,198 +1,87 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Consultar guía | Depósito asegurado</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validar guía | Depósito asegurado</title>
 
-<style>
-:root{
-  --verde:#00e676;
-  --fondo:#0b1a14;
-  --glass:rgba(255,255,255,.06);
-  --borde:rgba(255,255,255,.15);
-}
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#f2f2f2;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
 
-*{box-sizing:border-box}
+    .card{
+      background:#fff;
+      padding:22px;
+      border-radius:12px;
+      width:90%;
+      max-width:420px;
+      box-shadow:0 10px 25px rgba(0,0,0,.15);
+      text-align:center;
+    }
 
-body{
-  margin:0;
-  min-height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:system-ui,-apple-system,Segoe UI,Roboto;
-  color:#fff;
-  background:
-    radial-gradient(circle at top,#163b2c 0%,var(--fondo) 60%),
-    #000;
-}
+    h2{
+      margin-bottom:16px;
+    }
 
-/* CONTENEDOR */
-.card{
-  width:92%;
-  max-width:420px;
-  padding:28px 22px 32px;
-  border-radius:28px;
-  background:var(--glass);
-  backdrop-filter:blur(18px);
-  border:1px solid var(--borde);
-  box-shadow:0 30px 60px rgba(0,0,0,.55);
-  animation:entrar .7s ease;
-  text-align:center;
-}
+    input{
+      width:100%;
+      padding:14px;
+      font-size:16px;
+      margin-bottom:15px;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
 
-@keyframes entrar{
-  from{opacity:0;transform:translateY(20px)}
-  to{opacity:1;transform:none}
-}
+    button{
+      width:100%;
+      padding:14px;
+      background:#00c853;
+      color:#000;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
 
-/* TITULOS */
-h1{
-  margin:14px 0 6px;
-  font-size:1.9rem;
-  letter-spacing:.5px;
-}
-
-p{
-  margin:0 0 22px;
-  font-size:.95rem;
-  color:#cfdad5;
-}
-
-/* INPUT + BOTON */
-.cuadro{
-  display:flex;
-  gap:8px;
-  padding:6px;
-  border-radius:18px;
-  background:rgba(0,0,0,.35);
-  border:1px solid var(--borde);
-}
-
-.cuadro:focus-within{
-  border-color:var(--verde);
-  box-shadow:0 0 18px rgba(0,230,118,.25);
-}
-
-.cuadro input{
-  flex:1;
-  background:transparent;
-  border:none;
-  outline:none;
-  padding:14px;
-  font-size:15px;
-  color:#fff;
-}
-
-.cuadro button{
-  background:var(--verde);
-  border:none;
-  border-radius:14px;
-  padding:0 22px;
-  font-weight:700;
-  cursor:pointer;
-  transition:.25s;
-}
-
-.cuadro button:active{
-  transform:scale(.95);
-}
-
-/* ESTADO */
-.estado{
-  margin-top:14px;
-  font-size:.85rem;
-  color:var(--verde);
-  display:none;
-}
-
-/* WHATSAPP FLOTANTE */
-.whatsapp{
-  position:fixed;
-  right:18px;
-  bottom:18px;
-  width:56px;
-  height:56px;
-  border-radius:50%;
-  background:#25d366;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  box-shadow:0 12px 28px rgba(0,0,0,.45);
-  cursor:pointer;
-  transition:.3s;
-}
-
-.whatsapp:active{
-  transform:scale(.92);
-}
-</style>
+    button:hover{
+      background:#00b44b;
+    }
+  </style>
 </head>
 
 <body>
 
-<div class="card">
-  <img src="https://cdn-icons-png.flaticon.com/512/2311/2311524.png"
-       width="78" style="filter:invert(1)">
-  
-  <h1>Consultar guía</h1>
-  <p>Consulta el estado de tu envío con depósito asegurado</p>
-
-  <div class="cuadro">
-    <input id="guia" placeholder="Ingresa el número de guía" autocomplete="off">
-    <button id="consultar">Consultar</button>
+  <div class="card">
+    <h2>Validar guía con depósito asegurado</h2>
+    <input id="guia" type="text" placeholder="Ingresa tu número de guía">
+    <button onclick="validar()">Validar ahora</button>
   </div>
 
-  <div id="estado" class="estado">Verificando guía…</div>
-</div>
+  <script>
+    function validar(){
+      const guia = document.getElementById("guia").value.trim();
 
-<div class="whatsapp" id="wa">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" width="30">
-</div>
+      if(guia.length < 5){
+        alert("Número de guía inválido");
+        return;
+      }
 
-<script>
-const GUIA_VALIDA = "0750925931";
-const WHATSAPP = "573026219839";
-const MAX_INTENTOS = 3;
+      const mensaje = encodeURIComponent(
+        "Hola, deseo validar la guía " + guia
+      );
 
-function procesar(){
-  const guia = guiaInput.value.trim();
-  const estado = document.getElementById("estado");
-  let intentos = Number(localStorage.getItem("intentos")) || 0;
-
-  if(intentos >= MAX_INTENTOS){
-    alert("🚫 Acceso bloqueado por intentos fallidos");
-    return;
-  }
-
-  if(!guia){
-    alert("⚠️ Ingresa el número de guía");
-    return;
-  }
-
-  estado.style.display="block";
-
-  setTimeout(()=>{
-    if(guia !== GUIA_VALIDA){
-      intentos++;
-      localStorage.setItem("intentos",intentos);
-      estado.style.display="none";
-      alert(`❌ Guía incorrecta\nIntentos restantes: ${MAX_INTENTOS-intentos}`);
-    }else{
-      localStorage.removeItem("intentos");
-      const msg = `Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía: ${guia}`;
-      window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`,"_blank");
-      estado.style.display="none";
+      window.location.href =
+        "https://wa.me/573026219839?text=" + mensaje;
     }
-  },900);
-}
-
-const guiaInput = document.getElementById("guia");
-document.getElementById("consultar").onclick = procesar;
-document.getElementById("wa").onclick = procesar;
-guiaInput.addEventListener("keypress",e=>{if(e.key==="Enter")procesar()});
-</script>
+  </script>
 
 </body>
 </html>
