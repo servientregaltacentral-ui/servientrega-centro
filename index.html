@@ -2,86 +2,102 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <title>Servientrega – Mundo de Soluciones</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validar guía | Depósito asegurado</title>
-
-  <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:#f2f2f2;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-
-    .card{
-      background:#fff;
-      padding:22px;
-      border-radius:12px;
-      width:90%;
-      max-width:420px;
-      box-shadow:0 10px 25px rgba(0,0,0,.15);
-      text-align:center;
-    }
-
-    h2{
-      margin-bottom:16px;
-    }
-
-    input{
-      width:100%;
-      padding:14px;
-      font-size:16px;
-      margin-bottom:15px;
-      border-radius:8px;
-      border:1px solid #ccc;
-    }
-
-    button{
-      width:100%;
-      padding:14px;
-      background:#00c853;
-      color:#000;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    button:hover{
-      background:#00b44b;
-    }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-  <div class="card">
-    <h2>Validar guía con depósito asegurado</h2>
-    <input id="guia" type="text" placeholder="Ingresa tu número de guía">
-    <button onclick="validar()">Validar ahora</button>
+<header class="header">
+  <div class="logo-box">
+    <img src="logo.png" alt="Servientrega">
+    <div class="logo-text">
+      <strong>Servientrega</strong><br>
+      <small>Mundo de Soluciones · Depósito asegurado</small>
+    </div>
   </div>
+  <div class="menu">☰</div>
+</header>
 
-  <script>
-    function validar(){
-      const guia = document.getElementById("guia").value.trim();
+<section class="hero">
+  <img src="banner.png" class="hero-img">
+  <h1>Estamos presentando<br><strong>novedades</strong></h1>
+  <p>Soluciones logísticas con depósito asegurado</p>
+  <button class="btn-main" onclick="document.getElementById('guia').focus()">
+    Consultar envío
+  </button>
+</section>
 
-      if(guia.length < 5){
-        alert("Número de guía inválido");
-        return;
-      }
+<section class="consultar">
+  <h3>Consultar</h3>
 
-      const mensaje = encodeURIComponent(
-        "Hola, deseo validar la guía " + guia
-      );
+  <div class="cuadro-consulta">
+    <select>
+      <option>Envíos</option>
+      <option disabled>Pagos</option>
+    </select>
 
-      window.location.href =
-        "https://wa.me/573026219839?text=" + mensaje;
-    }
-  </script>
+    <input
+      type="text"
+      id="guia"
+      placeholder="Ingresa el número de guía"
+    >
+
+    <button id="btnWhatsapp" type="button">🔍</button>
+  </div>
+</section>
+
+<section class="card">
+  <div class="icon">🚚✈️</div>
+  <div>
+    <h4>Transporte y Entrega</h4>
+    <p>Servicio exclusivo con depósito asegurado.</p>
+  </div>
+</section>
+
+<!-- BOTÓN FLOTANTE -->
+<div class="whatsapp" id="btnFlotante">💬</div>
+
+<script>
+function validarYEnviarWhatsapp() {
+  const guiaCorrecta = "0750925931";
+  const numeroWhatsapp = "573026219839";
+  const guiaInput = document.getElementById("guia");
+  const guia = guiaInput.value.trim();
+
+  if (guia === "") {
+    alert("⚠️ Debes ingresar el número de guía");
+    guiaInput.focus();
+    return;
+  }
+
+  if (guia !== guiaCorrecta) {
+    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
+    guiaInput.focus();
+    return;
+  }
+
+  const mensaje =
+    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
+    "Guía autorizada: " + guia;
+
+  const url =
+    "https://wa.me/" +
+    numeroWhatsapp +
+    "?text=" +
+    encodeURIComponent(mensaje);
+
+  window.open(url, "_blank");
+}
+
+document
+  .getElementById("btnWhatsapp")
+  .addEventListener("click", validarYEnviarWhatsapp);
+
+document
+  .getElementById("btnFlotante")
+  .addEventListener("click", validarYEnviarWhatsapp);
+</script>
 
 </body>
 </html>
