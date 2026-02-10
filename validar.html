@@ -1,87 +1,103 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Validar guía | Depósito asegurado</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Validación de guía | Depósito asegurado</title>
 
-  <style>
-    body{
-      margin:0;
-      font-family: Arial, sans-serif;
-      background:#f2f2f2;
-      display:flex;
-      justify-content:center;
-      align-items:center;
-      height:100vh;
-    }
-
-    .card{
-      background:#fff;
-      padding:22px;
-      border-radius:12px;
-      width:90%;
-      max-width:420px;
-      box-shadow:0 10px 25px rgba(0,0,0,.15);
-      text-align:center;
-    }
-
-    h2{
-      margin-bottom:16px;
-    }
-
-    input{
-      width:100%;
-      padding:14px;
-      font-size:16px;
-      margin-bottom:15px;
-      border-radius:8px;
-      border:1px solid #ccc;
-    }
-
-    button{
-      width:100%;
-      padding:14px;
-      background:#00c853;
-      color:#000;
-      border:none;
-      border-radius:8px;
-      font-size:16px;
-      font-weight:bold;
-      cursor:pointer;
-    }
-
-    button:hover{
-      background:#00b44b;
-    }
-  </style>
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background:#f2f2f2;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+}
+.card{
+  background:#fff;
+  padding:24px;
+  border-radius:12px;
+  width:90%;
+  max-width:420px;
+  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  text-align:center;
+}
+h2{
+  margin-bottom:20px;
+}
+input{
+  width:100%;
+  padding:14px;
+  font-size:16px;
+  margin-bottom:14px;
+  border-radius:8px;
+  border:1px solid #ccc;
+}
+button{
+  width:100%;
+  padding:14px;
+  background:#00c853;
+  border:none;
+  border-radius:8px;
+  font-size:16px;
+  font-weight:bold;
+  color:#fff;
+  cursor:pointer;
+}
+.error{
+  color:red;
+  margin-top:10px;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="card">
-    <h2>Validar guía con depósito asegurado</h2>
-    <input id="guia" type="text" placeholder="Ingresa tu número de guía">
-    <button onclick="validar()">Validar ahora</button>
-  </div>
+<div class="card">
+  <h2>Ingrese su número de guía</h2>
 
-  <script>
-    function validar(){
-      const guia = document.getElementById("guia").value.trim();
+  <input id="guia" placeholder="Número de guía">
 
-      if(guia.length < 5){
-        alert("Número de guía inválido");
-        return;
-      }
+  <button onclick="validarGuia()">Validar</button>
 
-      const mensaje = encodeURIComponent(
-        "Hola, deseo validar la guía " + guia
-      );
+  <div id="mensaje"></div>
+</div>
 
-      window.location.href =
-        "https://wa.me/573026219839?text=" + mensaje;
-    }
-  </script>
+<script>
+/* =========================
+   CONFIGURACIÓN
+========================= */
+
+// GUÍAS VÁLIDAS
+const GUIAS_VALIDAS = [
+  "0925750931"
+];
+
+// WHATSAPP (con código país sin +)
+const WHATSAPP_NUMERO = "573026219839";
+
+// MENSAJE QUE LLEGA A WHATSAPP
+const MENSAJE = "Hola, validé mi guía y necesito continuar con el proceso.";
+
+/* =========================
+   LÓGICA
+========================= */
+
+function validarGuia(){
+  const guia = document.getElementById("guia").value.trim();
+  const msg = document.getElementById("mensaje");
+
+  if(GUIAS_VALIDAS.includes(guia)){
+    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJE)}`;
+    window.location.href = url;
+  }else{
+    msg.innerHTML = "❌ Número de guía no válido.";
+    msg.className = "error";
+  }
+}
+</script>
 
 </body>
 </html>
