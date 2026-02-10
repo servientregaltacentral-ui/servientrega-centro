@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Validar guía | Depósito asegurado</title>
+
+  <style>
+    body{
+      margin:0;
+      font-family: Arial, sans-serif;
+      background:#f2f2f2;
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      height:100vh;
+    }
+
+    .card{
+      background:#fff;
+      padding:22px;
+      border-radius:12px;
+      width:90%;
+      max-width:420px;
+      box-shadow:0 10px 25px rgba(0,0,0,.15);
+      text-align:center;
+    }
+
+    h2{
+      margin-bottom:16px;
+    }
+
+    input{
+      width:100%;
+      padding:14px;
+      font-size:16px;
+      margin-bottom:15px;
+      border-radius:8px;
+      border:1px solid #ccc;
+    }
+
+    button{
+      width:100%;
+      padding:14px;
+      background:#00c853;
+      color:#000;
+      border:none;
+      border-radius:8px;
+      font-size:16px;
+      font-weight:bold;
+      cursor:pointer;
+    }
+
+    button:hover{
+      background:#00b44b;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <h2>Validar guía con depósito asegurado</h2>
+    <input id="guia" type="text" placeholder="Ingresa tu número de guía">
+    <button onclick="validar()">Validar ahora</button>
+  </div>
+
+  <script>
+    function validar(){
+      const guia = document.getElementById("guia").value.trim();
+
+      if(guia.length < 5){
+        alert("Número de guía inválido");
+        return;
+      }
+
+      const mensaje = encodeURIComponent(
+        "Hola, deseo validar la guía " + guia
+      );
+
+      window.location.href =
+        "https://wa.me/573026219839?text=" + mensaje;
+    }
+  </script>
+
+</body>
+</html>
