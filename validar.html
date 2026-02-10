@@ -3,48 +3,37 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Validación de guía | Depósito asegurado</title>
+<title>Validación de guía</title>
 
 <style>
 body{
-  margin:0;
-  font-family: Arial, sans-serif;
+  font-family:Arial, sans-serif;
   background:#f2f2f2;
   display:flex;
   justify-content:center;
   align-items:center;
   height:100vh;
+  margin:0;
 }
 .card{
   background:#fff;
-  padding:24px;
+  padding:25px;
   border-radius:12px;
   width:90%;
-  max-width:420px;
-  box-shadow:0 10px 25px rgba(0,0,0,.15);
+  max-width:400px;
+  box-shadow:0 10px 20px rgba(0,0,0,.15);
   text-align:center;
-}
-h2{
-  margin-bottom:20px;
-}
-input{
-  width:100%;
-  padding:14px;
-  font-size:16px;
-  margin-bottom:14px;
-  border-radius:8px;
-  border:1px solid #ccc;
 }
 button{
   width:100%;
   padding:14px;
   background:#00c853;
+  color:#fff;
   border:none;
   border-radius:8px;
   font-size:16px;
   font-weight:bold;
-  color:#fff;
-  cursor:pointer;
+  margin-top:15px;
 }
 .error{
   color:red;
@@ -56,45 +45,33 @@ button{
 <body>
 
 <div class="card">
-  <h2>Ingrese su número de guía</h2>
-
-  <input id="guia" placeholder="Número de guía">
-
-  <button onclick="validarGuia()">Validar</button>
-
-  <div id="mensaje"></div>
+  <h3>Confirmar guía</h3>
+  <p id="guiaTexto"></p>
+  <button onclick="abrirWhatsApp()">Continuar por WhatsApp</button>
+  <div id="error" class="error"></div>
 </div>
 
 <script>
-/* =========================
-   CONFIGURACIÓN
-========================= */
+// ================= CONFIGURACIÓN =================
+const GUIAS_VALIDAS = ["0925750931"];
+const WHATSAPP = "573026219839";
+// ================================================
 
-// GUÍAS VÁLIDAS
-const GUIAS_VALIDAS = [
-  "0925750931"
-];
+// leer parámetro
+const params = new URLSearchParams(window.location.search);
+const guia = params.get("g");
 
-// WHATSAPP (con código país sin +)
-const WHATSAPP_NUMERO = "573026219839";
+document.getElementById("guiaTexto").innerText =
+  guia ? "Guía ingresada: " + guia : "No se recibió guía";
 
-// MENSAJE QUE LLEGA A WHATSAPP
-const MENSAJE = "Hola, validé mi guía y necesito continuar con el proceso.";
-
-/* =========================
-   LÓGICA
-========================= */
-
-function validarGuia(){
-  const guia = document.getElementById("guia").value.trim();
-  const msg = document.getElementById("mensaje");
-
+function abrirWhatsApp(){
   if(GUIAS_VALIDAS.includes(guia)){
-    const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(MENSAJE)}`;
-    window.location.href = url;
+    const msg = "Hola, validé mi guía " + guia + " y necesito continuar.";
+    window.location.href =
+      "https://wa.me/" + WHATSAPP + "?text=" + encodeURIComponent(msg);
   }else{
-    msg.innerHTML = "❌ Número de guía no válido.";
-    msg.className = "error";
+    document.getElementById("error").innerText =
+      "❌ Guía no válida.";
   }
 }
 </script>
