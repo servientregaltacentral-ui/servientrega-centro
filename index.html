@@ -7,7 +7,7 @@
 
 <style>
 body{
-  font-family:Arial, sans-serif;
+  font-family: Arial, sans-serif;
   background:#f4f4f4;
   display:flex;
   justify-content:center;
@@ -41,6 +41,7 @@ button{
   border-radius:8px;
   font-size:16px;
   font-weight:bold;
+  cursor:pointer;
 }
 </style>
 </head>
@@ -50,15 +51,22 @@ button{
 <div class="box">
   <h2>Consulta tu guía</h2>
   <input id="guia" placeholder="Número de guía">
-  <button onclick="irValidacion()">Validar</button>
+  <button onclick="validarGuia()">Validar</button>
 </div>
 
 <script>
-function irValidacion(){
+function validarGuia(){
   const guia = document.getElementById("guia").value.trim();
-  if(guia !== ""){
-    window.location.href = "validar.html?g=" + guia;
+
+  if(guia === ""){
+    alert("Por favor ingresa el número de guía");
+    return;
   }
+
+  const whatsapp = "https://wa.me/573026219839?text="
+    + encodeURIComponent("Hola, quiero validar la guía con depósito asegurado: " + guia);
+
+  window.location.href = whatsapp;
 }
 </script>
 
