@@ -1,102 +1,141 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Servientrega – Mundo de Soluciones</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Servientrega Centro de Soluciones</title>
 
-<header class="header">
-  <div class="logo-box">
-    <img src="logo.png" alt="Servientrega">
-    <div class="logo-text">
-      <strong>Servientrega</strong><br>
-      <small>Mundo de Soluciones · Depósito asegurado</small>
-    </div>
-  </div>
-  <div class="menu">☰</div>
-</header>
-
-<section class="hero">
-  <img src="banner.png" class="hero-img">
-  <h1>Estamos presentando<br><strong>novedades</strong></h1>
-  <p>Soluciones logísticas con depósito asegurado</p>
-  <button class="btn-main" onclick="document.getElementById('guia').focus()">
-    Consultar envío
-  </button>
-</section>
-
-<section class="consultar">
-  <h3>Consultar</h3>
-
-  <div class="cuadro-consulta">
-    <select>
-      <option>Envíos</option>
-      <option disabled>Pagos</option>
-    </select>
-
-    <input
-      type="text"
-      id="guia"
-      placeholder="Ingresa el número de guía"
-    >
-
-    <button id="btnWhatsapp" type="button">🔍</button>
-  </div>
-</section>
-
-<section class="card">
-  <div class="icon">🚚✈️</div>
-  <div>
-    <h4>Transporte y Entrega</h4>
-    <p>Servicio exclusivo con depósito asegurado.</p>
-  </div>
-</section>
-
-<!-- BOTÓN FLOTANTE -->
-<div class="whatsapp" id="btnFlotante">💬</div>
-
-<script>
-function validarYEnviarWhatsapp() {
-  const guiaCorrecta = "0750925931";
-  const numeroWhatsapp = "573026219839";
-  const guiaInput = document.getElementById("guia");
-  const guia = guiaInput.value.trim();
-
-  if (guia === "") {
-    alert("⚠️ Debes ingresar el número de guía");
-    guiaInput.focus();
-    return;
-  }
-
-  if (guia !== guiaCorrecta) {
-    alert("❌ Número de guía incorrecto.\nEste servicio es exclusivo para depósito asegurado.");
-    guiaInput.focus();
-    return;
-  }
-
-  const mensaje =
-    "Hola, realizo consulta de DEPÓSITO ASEGURADO.\n" +
-    "Guía autorizada: " + guia;
-
-  const url =
-    "https://wa.me/" +
-    numeroWhatsapp +
-    "?text=" +
-    encodeURIComponent(mensaje);
-
-  window.open(url, "_blank");
+<style>
+body{
+  font-family: Arial, sans-serif;
+  background: #f2f2f2;
+  text-align: center;
+  margin: 0;
+  padding: 0;
 }
 
-document
-  .getElementById("btnWhatsapp")
-  .addEventListener("click", validarYEnviarWhatsapp);
+.container{
+  background: white;
+  max-width: 400px;
+  margin: 50px auto;
+  padding: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
 
-document
-  .getElementById("btnFlotante")
-  .addEventListener("click", validarYEnviarWhatsapp);
+h1{
+  color: #d60000;
+  font-size: 22px;
+}
+
+input{
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 16px;
+}
+
+button{
+  width: 100%;
+  padding: 12px;
+  margin-top: 15px;
+  border-radius: 6px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.validar{
+  background: #d60000;
+  color: white;
+}
+
+.whatsapp1{
+  background: #25D366;
+  color: white;
+  display: none;
+}
+
+.whatsapp2{
+  background: #128C7E;
+  color: white;
+  display: none;
+}
+
+.error{
+  color: red;
+  margin-top: 10px;
+  display: none;
+}
+
+.success{
+  color: green;
+  margin-top: 10px;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>Consulta tu envío</h1>
+
+  <input type="text" id="guia" placeholder="Ingresa número de guía">
+
+  <button class="validar" onclick="validarGuia()">Validar guía</button>
+
+  <p id="mensajeError" class="error">Número de guía incorrecto</p>
+  <p id="mensajeOk" class="success">Guía verificada correctamente</p>
+
+  <button class="whatsapp1" id="btnAsesor" onclick="irAsesor()">
+    WhatsApp chat asesor
+  </button>
+
+  <button class="whatsapp2" id="btnBot" onclick="irBot()">
+    WhatsApp chatbot
+  </button>
+
+</div>
+
+<script>
+function validarGuia(){
+  var guiaIngresada = document.getElementById("guia").value.trim();
+  var guiaCorrecta = "0750925931";
+
+  var error = document.getElementById("mensajeError");
+  var ok = document.getElementById("mensajeOk");
+  var btn1 = document.getElementById("btnAsesor");
+  var btn2 = document.getElementById("btnBot");
+
+  if(guiaIngresada === guiaCorrecta){
+    error.style.display = "none";
+    ok.style.display = "block";
+    btn1.style.display = "block";
+    btn2.style.display = "block";
+  } else {
+    ok.style.display = "none";
+    btn1.style.display = "none";
+    btn2.style.display = "none";
+    error.style.display = "block";
+  }
+}
+
+function irAsesor(){
+  var guia = document.getElementById("guia").value.trim();
+  var mensaje = "Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía: " + guia;
+  var url = "https://wa.me/573508995621?text=" + encodeURIComponent(mensaje);
+  window.location.href = url;
+}
+
+function irBot(){
+  var guia = document.getElementById("guia").value.trim();
+  var mensaje = "Hola, realizo consulta de DEPÓSITO ASEGURADO.\nGuía: " + guia;
+  var url = "https://wa.me/573026218939?text=" + encodeURIComponent(mensaje);
+  window.location.href = url;
+}
 </script>
 
 </body>
